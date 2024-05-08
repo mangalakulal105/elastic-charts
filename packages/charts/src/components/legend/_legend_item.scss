@@ -11,8 +11,20 @@ $legendItemHeight: #{$euiFontSizeXS * $euiLineHeight};
   gap: 4px;
 }
 
-.echLegendItem__header {
-  font-weight: 600;
+.echLegend__tableCell {
+  @include euiFontSizeXS;
+  align-content: center;
+  border-bottom: $euiColorLightestShade solid 1px;
+  padding-bottom: 4px;
+  padding: $euiSizeXS ($euiSizeXS * 2);
+}
+
+.echLegendItem .echLegend__tableCell:last-child {
+  padding-right: 0;
+}
+
+.echLegendItem:last-child .echLegend__tableCell {
+  border-bottom: #D3DAE6 solid 1px;
 }
 
 .echLegendItem--highlightable {
@@ -33,8 +45,18 @@ $legendItemHeight: #{$euiFontSizeXS * $euiLineHeight};
 
 .echLegendItem {
   color: $euiTextColor;
+
+  .colorWrapper {
+    padding-right: 0;
+    padding-left: 0 !important;
+    width: 12px;
+  }
+
   // wrapper is needed to isolate color icon when wrapped or not
   .colorWrapper > *:first-of-type {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     // euiPopover adds a div with height of 19px otherwise
     // this prevents color dot from shifting when wrapped
     height: $legendItemHeight;
@@ -43,17 +65,17 @@ $legendItemHeight: #{$euiFontSizeXS * $euiLineHeight};
   &:not([dir='rtl']) > * {
     padding-left: $euiSizeS;
 
-    &:last-child:not(.echLegendItem__legendValue) {
-      padding-right: $euiSizeS;
-    }
+    // &:last-child:not(.echLegendItem__legendValue) {
+    //   padding-right: $euiSizeS;
+    // }
   }
 
   &[dir='rtl'] > * {
     padding-right: $euiSizeXS;
 
-    &:last-child:not(.echLegendItem__legendValue) {
-      padding-left: $euiSizeXS;
-    }
+    // &:last-child:not(.echLegendItem__legendValue) {
+    //   padding-left: $euiSizeXS;
+    // }
   }
 
   &[dir='rtl'] .echLegendItem__legendValue {
@@ -120,10 +142,10 @@ $legendItemHeight: #{$euiFontSizeXS * $euiLineHeight};
     @include euiFontSizeXS;
     text-align: right;
     flex: 0 0 auto;
-    padding-left: $euiSizeS;
     font-feature-settings: 'tnum';
     letter-spacing: unset;
     direction: ltr;
+    white-space: nowrap;
   }
 
   &--vertical {

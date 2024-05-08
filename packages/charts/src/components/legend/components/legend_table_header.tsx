@@ -27,9 +27,10 @@ export const LegendTableHeader = ({ hasAction, legendValues }: { legendValues: L
   }
 
   return (
-    <div role="rowgroup">
-      <LegendTableRow className="echLegendItem echLegendItem__header echLegendItem--vertical">
-        <LegendTableCell>{/* TODO SERIES TITLE */}</LegendTableCell>
+    <div role="rowgroup" className="echLegend__tableRowgroup echLegendHeader">
+      <LegendTableRow className="echLegendItem echLegendItem--vertical">
+        <LegendTableCell className="colorWrapper">{/* Color dot */}</LegendTableCell>
+        <LegendTableCell>Legend</LegendTableCell>
 
         {legendValues.map((l) => (
           <LegendTableCell className="echLegendItem__legendValue" key={l}>

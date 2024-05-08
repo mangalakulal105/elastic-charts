@@ -2,25 +2,25 @@
   z-index: 1;
 
   max-width: 50%;
-  .echLegendTable {
+  .echLegend__table {
     overflow: auto;
     display: grid;
     width: 100%;
-    row-gap: 4px; //?
+    padding: 8px;
     position: relative;
-    > * {
+
+    .echLegend__tableRowgroup {
       display: contents;
     }
-    >*>*{
+    .echLegend__tableRow {
       display: contents;
     }
   }
   &--horizontal {
     max-width: 100%;
     max-height: 100px;
-    .echLegendTable {
-      // column-gap: $echLegendColumnGap;
-      row-gap: 4px;
+    .echLegend__table {
+      padding-bottom: 4px;
       margin-top: $echLegendRowGap;
       margin-bottom: $echLegendRowGap;
     }
@@ -45,7 +45,7 @@
     pointer-events: none;
   }
 
-  .echLegendTableContainer {
+  .echLegend__tableContainer {
     @include euiYScrollWithShadows;
     width: 100%;
     overflow-y: auto;

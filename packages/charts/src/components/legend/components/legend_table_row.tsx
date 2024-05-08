@@ -9,9 +9,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-interface LegendTableRowProps extends React.HTMLAttributes<HTMLDivElement> {
-  callback?: Function;
-}
+interface LegendTableRowProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /** @public */
 export const LegendTableRow = ({ id, children, className, ...rest }: LegendTableRowProps) => {

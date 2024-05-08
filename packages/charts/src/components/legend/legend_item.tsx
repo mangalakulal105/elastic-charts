@@ -136,7 +136,7 @@ export class LegendListItem extends Component<LegendItemProps> {
 
     const legendValueItems = item.values
       .map((v) => {
-        if (v.type === LegendValue.CurrentAndLastValue) {
+        if (v.type === LegendValue.CurrentAndLastValue || (v && !v.type)) {
           return getExtra(extraValues, item, totalItems);
         }
         return v;
@@ -158,17 +158,17 @@ export class LegendListItem extends Component<LegendItemProps> {
         dir={isMostlyRTL ? 'rtl' : 'ltr'}
         data-ech-series-name={label}
       >
+        <LegendTableCell className="colorWrapper">
+          <LegendColorPickerComponent {...this.props} />
+        </LegendTableCell>
         <LegendTableCell>
-          <div className="echLegendItem__seriesItem">
-            <LegendColorPickerComponent {...this.props} />
-            <ItemLabel
-              label={label}
-              options={labelOptions}
-              isToggleable={totalItems > 1 && item.isToggleable}
-              onToggle={this.onLabelToggle(seriesIdentifiers)}
-              isSeriesHidden={isSeriesHidden}
-            />
-          </div>
+          <ItemLabel
+            label={label}
+            options={labelOptions}
+            isToggleable={totalItems > 1 && item.isToggleable}
+            onToggle={this.onLabelToggle(seriesIdentifiers)}
+            isSeriesHidden={isSeriesHidden}
+          />
         </LegendTableCell>
 
         {legendValueItems?.map((l, i) => {

@@ -57,7 +57,7 @@ export const LegendColorPicker = ({
   const hasColorPicker = Boolean(ColorPickerRenderer);
 
   return (
-    <div className="colorWrapper">
+    <>
       <ItemColor
         ref={colorRef}
         color={color}
@@ -76,6 +76,6 @@ export const LegendColorPicker = ({
           seriesIdentifiers={seriesIdentifiers}
         />
       )}
-    </div>
+    </>
   );
 };

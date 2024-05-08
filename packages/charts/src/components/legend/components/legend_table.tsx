@@ -6,6 +6,7 @@
  * Side Public License, v 1.
  */
 
+import euiDarkVars from '@elastic/eui/dist/eui_theme_dark.json';
 import React from 'react';
 
 import { LegendTableBody } from './legend_table_body';
@@ -22,16 +23,15 @@ export interface LegendTableProps extends SharedLegendItemProps {
 
 /** @internal */
 export function LegendTable({ items, listStyle, ...itemProps }: LegendTableProps) {
-  const gridRowLength = (itemProps.action ? 1 : 0) + (itemProps.legendValues.length ?? 0);
-
+  const gridRowLength = (itemProps.action ? 1 : 0) + (items?.[0]?.values.length ?? 0);
   return (
-    <div className="echLegendTableContainer">
+    <div className="echLegend__tableContainer">
       <div
-        className="echLegendTable"
+        className="echLegend__table"
         role="table"
         style={{
           ...listStyle,
-          gridTemplateColumns: `minmax(100px, 1fr) repeat(${gridRowLength}, auto)`,
+          gridTemplateColumns: `${euiDarkVars.euiSizeM} minmax(100px, 1fr) repeat(${gridRowLength}, auto)`,
         }}
       >
         <LegendTableHeader hasAction={!!itemProps.action} legendValues={itemProps.legendValues} />

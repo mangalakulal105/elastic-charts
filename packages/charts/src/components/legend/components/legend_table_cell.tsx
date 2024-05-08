@@ -13,7 +13,6 @@ import { LegendCellStyle } from './types';
 
 /** @public */
 export type LegendTableCellProps = PropsWithChildren<{
-  tagName?: 'td' | 'th';
   truncate?: boolean;
   className?: string;
   title?: string;
