@@ -20,6 +20,11 @@ interface LabelProps {
   options: LegendLabelOptions;
 }
 
+const onShownItemClickLabel = 'Click: isolate series';
+const onHiddenItemClickLabel = 'Click: show all series';
+const onShownItemMetaKeyClickLabel = 'SHIFT + click: hide series';
+const onHiddenItemMetaKeyClickLabel = 'SHIFT + click: show series';
+
 /**
  * Label component used to display text in legend item
  * @internal
@@ -44,6 +49,14 @@ export function Label({ label, isToggleable, onToggle, isSeriesHidden, options }
   const title = options.maxLines > 0 ? label : ''; // full text already visible
   const clampStyles = maxLines > 1 ? { WebkitLineClamp: maxLines } : {};
 
+  const interactionsGuidanceText = !isSeriesHidden
+    ? `
+${onShownItemClickLabel}
+${onShownItemMetaKeyClickLabel}`
+    : `
+${onHiddenItemClickLabel}
+${onHiddenItemMetaKeyClickLabel}`;
+
   return isToggleable ? (
     // This div is required to allow multiline text truncation, all ARIA requirements are still met
     // https://stackoverflow.com/questions/68673034/webkit-line-clamp-does-not-apply-to-buttons
@@ -52,14 +65,12 @@ export function Label({ label, isToggleable, onToggle, isSeriesHidden, options }
       tabIndex={0}
       dir={dir}
       className={labelClassNames}
-      title={title}
+      title={`${title}${interactionsGuidanceText}`}
       onClick={onClick}
       onKeyDown={onKeyDown}
       aria-pressed={isSeriesHidden}
       style={clampStyles}
-      aria-label={
-        isSeriesHidden ? `${label}; Activate to show series in graph` : `${label}; Activate to hide series in graph`
-      }
+      aria-label={`${label}; ${interactionsGuidanceText.replace('\n', '')}`} // put it in a single line
     >
       {label}
     </div>

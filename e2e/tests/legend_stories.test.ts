@@ -182,7 +182,8 @@ test.describe('Legend stories', () => {
         Array.from(document.getElementsByClassName('echLegendItem'), (e) => e.outerHTML),
       );
       (await labels).forEach((label, index) => {
-        if (label.includes('Activate to show series')) {
+        const ariaInteractionLabel = label.split('; ')[1];
+        if (ariaInteractionLabel && /show/.test(ariaInteractionLabel)) {
           hiddenResults.push(index);
         }
       });
