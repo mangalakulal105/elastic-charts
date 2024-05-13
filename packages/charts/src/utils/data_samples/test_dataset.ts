@@ -107,7 +107,13 @@ export const BARCHART_2Y1G = [
 
 /** @internal */
 export const BARCHART_2Y2G = [
-  { x: 0, g1: 'cdn.google.com', g2: 'direct-cdn', y1: 1, y2: 4 },
+  {
+    x: 0,
+    g1: 'cdn.google.comcdn.google.comcdn.google.comcdn.google.comcdn.google.comcdn.google.com',
+    g2: 'direct-cdn',
+    y1: 1,
+    y2: 4,
+  },
   { x: 0, g1: 'cdn.google.com', g2: 'indirect-cdn', y1: 1, y2: 4 },
   { x: 0, g1: 'cloudflare.com', g2: 'direct-cdn', y1: 3, y2: 6 },
   { x: 0, g1: 'cloudflare.com', g2: 'indirect-cdn', y1: 3, y2: 6 },
@@ -131,7 +137,14 @@ export const BARCHART_2Y2G = [
 
 /** @internal */
 export const BARCHART_2Y3G = [
-  { x: 0, g1: 'cdn.google.com', g2: 'direct-cdn', y1: 1, y2: 4, g3: 'somevalue' },
+  {
+    x: 0,
+    g1: 'cdn.google.comcdn.google.comcdn.google.comcdn.google.comcdn.google.comcdn.google.com',
+    g2: 'direct-cdn',
+    y1: 1,
+    y2: 4,
+    g3: 'somevalue',
+  },
   { x: 0, g1: 'cdn.google.com', g2: 'indirect-cdn', y1: 1, y2: 4, g3: 'newvalue' },
   { x: 0, g1: 'cloudflare.com', g2: 'direct-cdn', y1: 3, y2: 6, g3: 'somevalue' },
   { x: 0, g1: 'cloudflare.com', g2: 'indirect-cdn', y1: 3, y2: 6, g3: 'newvalue' },

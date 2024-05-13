@@ -1,0 +1,11 @@
+$legendBorderWidth: 1px;
+$tableOutsideBorder: solid $legendBorderWidth $euiColorLightShade;
+
+.echLegendHeader {
+  font-weight: $euiFontWeightSemiBold;
+  font-size: $euiFontSizeXS;
+  font-weight: $euiFontWeightSemiBold;
+  .echLegend__tableCell {
+    border-bottom: $tableOutsideBorder;
+  }
+}

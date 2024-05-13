@@ -26,6 +26,61 @@ import { LegendValue } from '../../../../common/legend';
 import { ScaleType } from '../../../../scales/constants';
 import { XDomain } from '../../domains/types';
 import { DataSeries, DataSeriesDatum } from '../../utils/series';
+import { TickFormatter } from '../../utils/specs';
+
+/** @internal */
+export function nonNullable<T>(v: T): v is NonNullable<T> {
+  return v !== null || v !== undefined;
+}
+
+/** @internal */
+export const legendValueTitlesMap = {
+  [LegendValue.CurrentAndLastValue]: 'Value',
+  [LegendValue.Value]: 'Value',
+  [LegendValue.Percent]: 'Percent',
+  [LegendValue.LastValue]: 'Last',
+  [LegendValue.LastNonNullValue]: 'Last non-null',
+  [LegendValue.FirstValue]: 'First',
+  [LegendValue.FirstNonNullValue]: 'First non-null',
+  [LegendValue.Average]: 'Avg',
+  [LegendValue.Median]: 'Median',
+  [LegendValue.Min]: 'Min',
+  [LegendValue.Max]: 'Max',
+  [LegendValue.Total]: 'Total',
+  [LegendValue.Count]: 'Count',
+  [LegendValue.DistinctCount]: 'Dist Count',
+  [LegendValue.Variance]: 'Variance',
+  [LegendValue.StdDeviation]: 'Std dev',
+  [LegendValue.Range]: 'Range',
+  [LegendValue.Difference]: 'Diff',
+  [LegendValue.DifferencePercent]: 'Diff %',
+};
+
+/**
+ * This method return legend values from a DataSeries that correspond to the type of value requested.
+ * It in general compute the last, min, max, avg, sum of the value in a series.
+ * @internal
+ */
+export function getLegendValues(
+  series: DataSeries,
+  xDomain: XDomain,
+  types: LegendValue[],
+  valueAccessor: (d: DataSeriesDatum) => number | null,
+  formatter: TickFormatter<any> | ((tick: unknown) => string),
+) {
+  return types
+    .map((type) => {
+      const value = getLegendValue(series, xDomain, type, valueAccessor) ?? '-';
+
+      return {
+        type,
+        title: legendValueTitlesMap[type],
+        label: typeof value === 'number' ? formatter(value) : '-',
+        value,
+      };
+    })
+    .filter(nonNullable);
+}
 
 /**
  * This method return a value from a DataSeries that correspond to the type of value requested.
@@ -80,7 +135,6 @@ export function getLegendValue(
     case LegendValue.DifferencePercent:
       return differencePercent(series.data, valueAccessor);
     default:
-    case LegendValue.None:
       return null;
   }
 }

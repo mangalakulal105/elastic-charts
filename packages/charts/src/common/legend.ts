@@ -20,11 +20,10 @@ import { PointStyle } from '../utils/themes/theme';
 export type LegendItemChildId = CategoryKey;
 
 /** @public */
-export type LegendItemValue = { value: PrimitiveValue; label: string };
+export type LegendItemValue = { value: PrimitiveValue; label: string; type: LegendValue; title: string };
 
 /** @public */
 export const LegendValue = Object.freeze({
-  None: 'none' as const,
   /** Value of the bucket being hovered or last bucket value when not hovering. */
   CurrentAndLastValue: 'currentAndLastValue' as const,
   /** Last value considering all data points in the chart */
@@ -81,7 +80,7 @@ export type LegendItem = {
   label: CategoryLabel;
   isSeriesHidden?: boolean;
   isItemHidden?: boolean;
-  values: Array<LegendItemValue>;
+  values: LegendItemValue[];
   // TODO: Remove when partition layers are toggleable
   isToggleable?: boolean;
   keys: Array<string | number>;

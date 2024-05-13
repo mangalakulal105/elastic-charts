@@ -1,18 +1,26 @@
 .echLegend {
   z-index: 1;
 
-  .echLegendList {
+  max-width: 50%;
+  .echLegend__table {
+    overflow: auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    padding-inline-start: 0;
-    padding-inline-end: 0;
-    margin-block-start: 0;
-    margin-block-end: 0;
+    width: 100%;
+    padding: 8px;
+    position: relative;
+
+    .echLegend__tableRowgroup {
+      display: contents;
+    }
+    .echLegend__tableRow {
+      display: contents;
+    }
   }
   &--horizontal {
-    .echLegendList {
-      grid-column-gap: $echLegendColumnGap;
-      grid-row-gap: $echLegendRowGap;
+    max-width: 100%;
+    max-height: 100px;
+    .echLegend__table {
+      padding-bottom: 4px;
       margin-top: $echLegendRowGap;
       margin-bottom: $echLegendRowGap;
     }
@@ -37,7 +45,7 @@
     pointer-events: none;
   }
 
-  .echLegendListContainer {
+  .echLegend__tableContainer {
     @include euiYScrollWithShadows;
     width: 100%;
     overflow-y: auto;
