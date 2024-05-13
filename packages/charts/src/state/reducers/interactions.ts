@@ -274,18 +274,103 @@ function toggleDeselectedDataSeries(
 
   const alreadyDeselected = actionSeriesKeys.every((key) => deselectedDataSeriesKeys.has(key));
 
-  // todo consider branch simplifications
-  if (negate) {
-    return alreadyDeselected || deselectedDataSeries.length !== legendItemsKeys.length - 1
-      ? legendItems
-          .flatMap(({ seriesIdentifiers }) => seriesIdentifiers)
-          .filter(({ key }) => !actionSeriesKeys.includes(key))
-      : legendItemIds;
-  } else {
+  const keepOnlyNonActionSeries = ({ key }: SeriesIdentifier) => !actionSeriesKeys.includes(key);
+
+  // curret behaviour
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'original') {
+    if (negate) {
+      return alreadyDeselected || deselectedDataSeries.length !== legendItemsKeys.length - 1
+        ? legendItemsKeys.flat().filter(keepOnlyNonActionSeries)
+        : legendItemIds;
+    }
     return alreadyDeselected
-      ? deselectedDataSeries.filter(({ key }) => !actionSeriesKeys.includes(key))
-      : [...deselectedDataSeries, ...legendItemIds];
+      ? deselectedDataSeries.filter(keepOnlyNonActionSeries)
+      : deselectedDataSeries.concat(legendItemIds);
   }
+  // flip the logic
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'click-to-include') {
+    if (negate) {
+      return alreadyDeselected
+        ? deselectedDataSeries.filter(keepOnlyNonActionSeries)
+        : deselectedDataSeries.concat(legendItemIds);
+    }
+    return alreadyDeselected || deselectedDataSeries.length !== legendItemsKeys.length - 1
+      ? legendItemsKeys.flat().filter(keepOnlyNonActionSeries)
+      : legendItemIds;
+  }
+
+  // slight tweak on the click to include
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'click-to-include-only-on-visible') {
+    if (!negate && alreadyDeselected) {
+      return deselectedDataSeries.filter(keepOnlyNonActionSeries);
+    }
+    return alreadyDeselected || deselectedDataSeries.length !== legendItemsKeys.length - 1
+      ? legendItemsKeys.flat().filter(keepOnlyNonActionSeries)
+      : legendItemIds;
+  }
+
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'variant-1') {
+    if (negate) {
+      return alreadyDeselected
+        ? deselectedDataSeries.filter(keepOnlyNonActionSeries)
+        : deselectedDataSeries.concat(legendItemIds);
+    }
+    return !alreadyDeselected && deselectedDataSeries.length === legendItemsKeys.length - 1
+      ? []
+      : legendItemsKeys.flat().filter(keepOnlyNonActionSeries);
+  }
+
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'variant-2') {
+    if (negate) {
+      return alreadyDeselected
+        ? deselectedDataSeries.filter(keepOnlyNonActionSeries)
+        : deselectedDataSeries.concat(legendItemIds);
+    }
+    if (alreadyDeselected) {
+      return deselectedDataSeries.filter(keepOnlyNonActionSeries);
+    }
+    return deselectedDataSeries.length === legendItemsKeys.length - 1
+      ? []
+      : legendItemsKeys.flat().filter(keepOnlyNonActionSeries);
+  }
+
+  // @ts-expect-error we know this is a valid value
+  if (window.clickMode === 'variant-3') {
+    if (negate) {
+      return alreadyDeselected
+        ? deselectedDataSeries.filter(keepOnlyNonActionSeries)
+        : deselectedDataSeries.concat(legendItemIds);
+    }
+    if (alreadyDeselected) {
+      return deselectedDataSeries.filter(keepOnlyNonActionSeries);
+    }
+    if (deselectedDataSeries.length === legendItemsKeys.length - 1) {
+      return [];
+    }
+    return deselectedDataSeries.length
+      ? deselectedDataSeries.concat(legendItemIds)
+      : legendItemsKeys.flat().filter(keepOnlyNonActionSeries);
+  }
+
+  return legendItemIds;
+
+  // todo consider branch simplifications
+  // if (negate) {
+  //   return alreadyDeselected || deselectedDataSeries.length !== legendItemsKeys.length - 1
+  //     ? legendItems
+  //         .flatMap(({ seriesIdentifiers }) => seriesIdentifiers)
+  //         .filter(({ key }) => !actionSeriesKeys.includes(key))
+  //     : legendItemIds;
+  // } else {
+  //   return alreadyDeselected
+  //     ? deselectedDataSeries.filter(({ key }) => !actionSeriesKeys.includes(key))
+  //     : [...deselectedDataSeries, ...legendItemIds];
+  // }
 }
 
 function getDrilldownData(globalState: GlobalChartState) {
